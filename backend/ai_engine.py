@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 import asyncio
+from ai_contract import normalize_ai_analysis
 
 # Load .env at module level to ensure variables are available
 env_path = os.path.join(os.path.dirname(__file__), ".env")
@@ -49,16 +50,21 @@ Analise o seguinte resultado de varredura (scan) de um ambiente isolado:
 
 Quais são as falhas essenciais ou vulnerabilidades que você detecta nos serviços e portas abertas? Crie uma resposta de raciocínio profundo formatada da seguinte forma:
 (a) Uma prova documental de como isso é explorável junto com uma explicação técnica profunda de por que o código gera o bug.
-(b) Gere o código explícito da correção da vulnerabilidade (PATCH) pronto para aplicação.
+(b) Gere a solução ou patch causal em Markdown legível, usando títulos curtos, listas e blocos de código quando houver código pronto para aplicação.
 (c) Crie uma estrutura visual para Mermaid.js que descreva explicitamente o caminho lógico da detecção.
 
 Retorne SOMENTE um JSON estruturado com os seguintes campos (sem crases Markdown, apenas o JSON cru):
+CONTRATO OBRIGATORIO:
+- Nunca omita os campos titulo, explicacao, patch e mermaid.
+- O campo patch deve ser Markdown puro, com titulos, listas e blocos ``` quando houver codigo.
+- O campo patch NAO deve usar HTML.
+- Se nao houver codigo aplicavel, escreva passos de mitigacao em Markdown.
 {{
     "vulnerabilidades": [
         {{
             "titulo": "Nome da Falha",
             "explicacao": "Sua prova técnica (use tags HTML como <br> e <b> para formatar o texto e quebrar linhas)",
-            "patch": "O código de correção cru",
+            "patch": "Resposta em Markdown com a solução causal, passos de correção e blocos de código quando aplicável",
             "mermaid": "graph TD\\nA[Identificacao] --> B[Analise]\\nB --> C[Conclusao]\\n(REGRA CRITICA para o campo mermaid: Use SOMENTE letras ASCII sem acento, numeros e espacos nos rotulos dos nos. PROIBIDO usar acentos, cedilha, parenteses, colchetes extras, aspas ou qualquer caractere especial. Ex CORRETO: A[Deteccao de Portas] --> B[Vulnerabilidade Encontrada]. Ex ERRADO: A[Detecção de Risco (Alto)] --> B[Não Seguro].)"
         }}
     ]
@@ -123,7 +129,7 @@ Retorne SOMENTE um JSON estruturado com os seguintes campos (sem crases Markdown
             print(f"[ERRO] A IA falhou ao processar a solicitação: {str(e)}")
             return {"error": msg, "status": "ai_failure"}
         
-        return self._parse_json_response(response.content)
+        return normalize_ai_analysis(self._parse_json_response(response.content))
 
     # ─────────────────────────────────────────────────────────────────────────
     # MODO WEB: análise DAST multimodal (HTML + Screenshot + Console Logs)
@@ -173,6 +179,11 @@ Você recebeu três fontes de dados:
 4. **SCREENSHOT** da página (imagem anexada à esta mensagem).
 
 Realize uma análise DAST (Dynamic Application Security Testing) completa e retorne SOMENTE um JSON cru (sem crases Markdown) com esta estrutura exata:
+CONTRATO OBRIGATORIO:
+- Nunca omita os campos titulo, explicacao, patch e mermaid em web_vulnerabilidades.
+- O campo patch deve ser Markdown puro, com titulos, listas e blocos ``` quando houver codigo.
+- O campo patch NAO deve usar HTML.
+- Se nao houver codigo aplicavel, escreva passos de mitigacao em Markdown.
 {{
     "fingerprint_ia": {{
         "detectado": true ou false,
@@ -187,7 +198,7 @@ Realize uma análise DAST (Dynamic Application Security Testing) completa e reto
             "severidade": "Crítica | Alta | Média | Baixa | Informação",
             "explicacao": "Prova técnica detalhada com referência ao DOM/HTML. Use tags HTML <br> e <b>.",
             "evidencia_dom": "Trecho de código HTML ou padrão que prova a vulnerabilidade",
-            "patch": "Código de correção cru ou recomendação técnica",
+            "patch": "Resposta em Markdown com a solução causal, recomendação técnica e blocos de código quando aplicável",
             "mermaid": "graph TD\\nA[Atacante] --> B[Explora Input]\\nB --> C[Injecao SQL]"
         }}
     ],
@@ -232,7 +243,7 @@ Realize uma análise DAST (Dynamic Application Security Testing) completa e reto
             print(f"[ERRO] Análise multimodal falhou: {str(e)}")
             return {"error": msg, "status": "ai_failure"}
 
-        parsed = self._parse_json_response(response.content)
+        parsed = normalize_ai_analysis(self._parse_json_response(response.content))
         self._save_analysis(parsed)
         return parsed
 
@@ -333,12 +344,17 @@ O seu foco principal deve ser em:
 4. Recomendar ações de mitigação/remediação.
 
 Retorne SOMENTE um JSON cru (sem crases Markdown) com esta estrutura:
+CONTRATO OBRIGATORIO:
+- Nunca omita os campos titulo, explicacao, patch e mermaid.
+- O campo patch deve ser Markdown puro, com titulos, listas e blocos ``` quando houver comandos ou codigo.
+- O campo patch NAO deve usar HTML.
+- Se nao houver codigo aplicavel, escreva passos de mitigacao em Markdown.
 {{
     "vulnerabilidades": [
         {{
             "titulo": "Nome da Ameaça ou Risco",
             "explicacao": "Prova técnica detalhada baseada nos dados do VirusTotal. Cite engines específicos, categorias e estatísticas. Use tags HTML <br> e <b> para formatar.",
-            "patch": "Ações recomendadas de mitigação, quarentena ou remoção",
+            "patch": "Resposta em Markdown com ações recomendadas de mitigação, quarentena ou remoção",
             "mermaid": "graph TD\\nA[Arquivo Recebido] --> B[Hash SHA256]\\nB --> C[Consulta VirusTotal]\\nC --> D[Analise de Deteccoes]\\nD --> E[Conclusao]\\n(REGRA CRITICA para o campo mermaid: Use SOMENTE letras ASCII sem acento, numeros e espacos nos rotulos dos nos. PROIBIDO usar acentos, cedilha, parenteses, colchetes extras, aspas ou qualquer caractere especial. Ex CORRETO: A[Deteccao de Ameaca] --> B[Arquivo Malicioso]. Ex ERRADO: A[Detecção de Risco (Alto)] --> B[Não Seguro].)"
         }}
     ]
@@ -354,8 +370,7 @@ Retorne SOMENTE um JSON cru (sem crases Markdown) com esta estrutura:
             print(f"[ERRO] Análise IA (VirusTotal) falhou: {str(e)}")
             return {"error": msg, "status": "ai_failure"}
 
-        parsed = self._parse_json_response(response.content)
-        return parsed
+        return normalize_ai_analysis(self._parse_json_response(response.content))
 
 
 if __name__ == "__main__":

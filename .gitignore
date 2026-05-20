@@ -16,3 +16,6 @@ backend/reports/*.pdf
 # Node
 node_modules/
 dist/
+
+# Others
+FUTURE-IMPLEMENTS.md

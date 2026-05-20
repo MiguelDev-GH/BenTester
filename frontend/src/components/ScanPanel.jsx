@@ -32,7 +32,6 @@ export default function ScanPanel({ onScanComplete, onProviderChange }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [modelFlashing, setModelFlashing] = useState(false);
-    const [providerKey, setProviderKey] = useState(0);
     const fileInputRef = useRef(null);
     const flashTimerRef = useRef(null);
 
@@ -53,7 +52,6 @@ export default function ScanPanel({ onScanComplete, onProviderChange }) {
         onProviderChange?.(newProvider);
         const nextModel = newProvider === 'gemini' ? GEMINI_MODELS[0].value : OPENAI_MODELS[0].value;
         setModel(nextModel);
-        setProviderKey(k => k + 1);
         triggerModelFlash();
     };
 

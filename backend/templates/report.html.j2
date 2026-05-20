@@ -10,6 +10,14 @@
         .vuln-box { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-left: 5px solid #d32f2f; background: #fafafa; }
         .vuln-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
         .code-block { background: #2b2b2b; color: #fff; padding: 10px; border-radius: 4px; font-family: monospace; white-space: pre-wrap; font-size: 0.9em; }
+        .patch-block { background: #f5f7fb; border: 1px solid #dde4f0; border-radius: 6px; padding: 12px 14px; }
+        .patch-block h4, .patch-block h5, .patch-block h6 { margin: 8px 0; color: #263238; }
+        .patch-block p { margin: 0 0 10px; }
+        .patch-block ul { margin: 0 0 10px; padding-left: 20px; }
+        .patch-block code { background: #e8edf5; color: #1f2937; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        .patch-block pre { background: #2b2b2b; color: #f8fafc; padding: 10px; border-radius: 4px; white-space: pre-wrap; }
+        .patch-block pre code { background: transparent; color: #f8fafc; padding: 0; border-radius: 0; }
+        .empty-ports { color: #546e7a; font-style: italic; }
         .scan-meta { background: #e3f2fd; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
     </style>
 </head>
@@ -20,11 +28,17 @@
         <h3>Meta-Dados do Alvo Laboratorial</h3>
         <p><strong>Alvo (IP):</strong> {{ scan.target }}</p>
         <p><strong>Status:</strong> {{ scan.status }}</p>
+        {% if show_open_ports %}
         <p><strong>Portas Abertas Observadas:</strong> 
-            {% for port in scan.open_ports %}
+            {% if scan.open_ports %}
+                {% for port in scan.open_ports %}
                 {{ port.port }}/{{ port.protocol }} ({{ port.name }}){% if not loop.last %}, {% endif %}
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <span class="empty-ports">Nenhuma porta aberta foi identificada nesta varredura.</span>
+            {% endif %}
         </p>
+        {% endif %}
     </div>
 
     <h2>Diagnóstico de Vulnerabilidades Detectadas pela IA</h2>
@@ -39,7 +53,7 @@
         <div class="code-block">{{ vuln.mermaid }}</div>
 
         <h4>Patch de Correção:</h4>
-        <div class="code-block">{{ vuln.patch }}</div>
+        <div class="patch-block">{{ vuln.patch_html | safe }}</div>
     </div>
     {% else %}
     <p>Nenhuma vulnerabilidade detectada pela inteligência ou falha no parse do LLM.</p>

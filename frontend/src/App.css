@@ -644,6 +644,17 @@ h3 {
     gap: 8px;
 }
 
+.open-ports-empty {
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px dashed var(--border-dim);
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin: 12px 0 0;
+    font-size: 0.87rem;
+    line-height: 1.55;
+}
+
 .open-ports-logs code {
     color: var(--accent-light);
     background: rgba(255, 255, 255, 0.05);
@@ -728,6 +739,88 @@ h3 {
     font-size: 0.82rem;
     color: var(--accent-light);
     line-height: 1.55;
+}
+
+.markdown-patch {
+    background: rgba(0, 0, 0, 0.34);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    padding: 18px 20px;
+    color: var(--text-muted);
+    font-size: 0.91rem;
+    line-height: 1.68;
+}
+
+.markdown-patch h5,
+.markdown-patch h6 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    opacity: 1;
+}
+
+.markdown-patch h5:not(:first-child),
+.markdown-patch h6:not(:first-child) {
+    margin-top: 18px;
+}
+
+.markdown-patch p {
+    margin: 0 0 12px;
+}
+
+.markdown-patch p:last-child,
+.markdown-patch ul:last-child,
+.markdown-patch pre:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-patch ul {
+    margin: 0 0 14px;
+    padding-left: 20px;
+}
+
+.markdown-patch li {
+    margin-bottom: 7px;
+}
+
+.markdown-patch strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.markdown-patch code {
+    color: var(--accent-light);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    padding: 2px 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.84rem;
+}
+
+.markdown-patch pre {
+    margin: 14px 0;
+    background: rgba(0, 0, 0, 0.42);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 14px;
+    overflow-x: auto;
+}
+
+.markdown-patch pre code {
+    display: block;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    white-space: pre;
+}
+
+.markdown-empty {
+    color: var(--text-muted);
+    margin: 0;
 }
 
 /* ─── PDF Download ──────────────────────────────────────── */
