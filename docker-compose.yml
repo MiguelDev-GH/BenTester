@@ -1,7 +1,4 @@
-version: '3.8'
-
 services:
-  # Alvo de Exploração Isolado - Laboratório OWASP Juice Shop
   juice-shop:
     image: bkimminich/juice-shop
     container_name: juice-shop-lab
@@ -11,9 +8,7 @@ services:
       - secops_net
     restart: unless-stopped
     security_opt:
-      - no-new-privileges:false # Restringe escalonamento de privilégios no alvo
-
-  # Backend FastAPI
+      - no-new-privileges:false
   backend:
     build: 
       context: ./backend
