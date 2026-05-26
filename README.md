@@ -1,15 +1,4 @@
-<div align="center">
-  <img src="./frontend/src/assets/BenTesterLogo.png" alt="BenTester Logo" width="200">
-</div>
-
-# 👥 Equipe
-- Miguel Chagas Maciel ( **Scrum Master** )
-- João Manoel ( **Developer** - *Security* )
-- João Victor ( **Developer** - *Backend* )
-- Isabela Arques ( **Developer** - *Frontend* )
-- Pedro Formiga ( **PO** )
-
-# O que é o projeto?
+# BenTester
 
 Uma aplicação que usa a IA para gerenciar os dados de um cliente, com a intenção de verificar a segurança do sistema.
 
@@ -30,7 +19,7 @@ Uma aplicação que usa a IA para gerenciar os dados de um cliente, com a inten�
 - Utilizar uma combinação de técnicas tradicionais de segurança com Grandes Modelos de Linguagem (LLMs);
 - Gerar um diagrama de como a IA detecta falhas de segurança.
 
-# BenTester: IA Pentester (White-Hat)
+# IA Pentester (White-Hat)
 
 O foco é automatizar a detecção de vulnerabilidades básicas, educar a equipe sobre cibersegurança e aplicar conceitos de IA no processo, gerando um diagrama do caminho percorrido.
 
@@ -49,6 +38,17 @@ O foco é automatizar a detecção de vulnerabilidades básicas, educar a equipe
 - **Fase 3: O "Cérebro" (Integração com IA)**
     - Conectar nosso script a uma API de IA (como a do Gemini ou OpenAI).
     - Fazer o script enviar o relatório de portas abertas para a IA e pedir: "Quais são as vulnerabilidades comuns nessas portas?".
+
+<div align="center">
+  <img src="./frontend/src/assets/BenTesterLogo.png" alt="BenTester Logo" width="200">
+</div>
+
+# 👥 Equipe
+- Miguel Chagas Maciel ( **Scrum Master** )
+- João Manoel ( **Developer** - *Security* )
+- João Victor ( **Developer** - *Backend* )
+- Isabela Arques ( **Developer** - *Frontend* )
+- Pedro Formiga ( **PO** )
 
 # Ferramentas:
 
