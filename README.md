@@ -48,6 +48,7 @@ O foco é automatizar a detecção de vulnerabilidades básicas, educar a equipe
 - João Manoel ( **Developer** - *Security* )
 - João Victor ( **Developer** - *Backend* )
 - Isabela Arques ( **Developer** - *Frontend* )
+- João Pedro ( **Developer** - *General* )
 - Pedro Formiga ( **PO** )
 
 # Ferramentas:
